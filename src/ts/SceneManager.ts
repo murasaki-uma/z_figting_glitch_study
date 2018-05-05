@@ -1,7 +1,7 @@
 'use strict'
 import * as THREE from 'three'
 import 'imports-loader?THREE=three!../../node_modules/three/examples/js/controls/OrbitControls';
-import Gui from 'dat.gui';
+import Gui from './Gui';
 import Scene from './Scene';
 export default class SceneManager{
     width:number;
@@ -15,14 +15,18 @@ export default class SceneManager{
     scenes:Scene[];
     sceneNum:number;
     controls:THREE.OrbitControls;
-    constructor()
+    canvas:any;
+    constructor(canvasId)
     {
 
+
+        this.canvas = document.getElementById(canvasId);
         this.width = window.innerWidth;
         this.height= window.innerHeight;
         this.renderer = new THREE.WebGLRenderer({
-            preserveDrawingBuffer: true,antialias:true,alpha:true
+            preserveDrawingBuffer: true,antialias:true,alpha:true,canvas:this.canvas
         });
+        this.renderer.setClearColor(0x000000);
         this.debugCamera = new THREE.PerspectiveCamera(50,this.width/this.height,0.1,10000);
         this.DEBUG_MODE = true;
         this.activeCamera = null;
@@ -44,7 +48,7 @@ export default class SceneManager{
         this.renderer.setSize(this.width,this.height);
 
         this.renderer.domElement.id = "out";
-        document.getElementById('render').appendChild( this.renderer.domElement );
+        //document.getElementById('render').appendChild( this.renderer.domElement );
         window.addEventListener('resize',this.onWindowResize.bind(this));
         window.addEventListener('keydown', this.onKeyDown.bind(this));
         window.addEventListener( 'click', this.onClick.bind(this), false );
@@ -83,6 +87,25 @@ export default class SceneManager{
         this.DEBUG_MODE = !this.DEBUG_MODE;
         this.cameraChange();
     }
+
+    enableDebugMode()
+    {
+        this.DEBUG_MODE = true;
+        this.cameraChange();
+
+    }
+
+    getDebugMode()
+    {
+        return this.DEBUG_MODE;
+    }
+
+    desableDebugMode()
+    {
+        this.DEBUG_MODE = false;
+        this.cameraChange();
+    }
+
     cameraChange()
     {
 
@@ -104,7 +127,12 @@ export default class SceneManager{
         this.debugCamera.aspect = window.innerWidth / window.innerHeight;
         this.debugCamera.updateProjectionMatrix();
         this.renderer.setSize( window.innerWidth, window.innerHeight );
-        this.scenes[this.sceneNum].onWindowResize(e);
+        if(this.scenes.length > 0)
+        {
+            this.scenes[this.sceneNum].onWindowResize(e);
+        }
+
+
 
 
     }
