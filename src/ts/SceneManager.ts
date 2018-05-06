@@ -62,6 +62,12 @@ export default class SceneManager{
 
     }
 
+
+    setDebugCameraPosition(v:THREE.Vector3)
+    {
+        this.debugCamera.position.set(v.x,v.y,v.z);
+    }
+
     addScene(scene)
     {
         this.scenes.push(scene);
@@ -146,6 +152,7 @@ export default class SceneManager{
     {
 
         this.frameCount++;
+        this.controls.update();
         // this.frameCount = this.frameCount % 60;
         requestAnimationFrame(this.update);
         this.scenes[this.sceneNum].update();

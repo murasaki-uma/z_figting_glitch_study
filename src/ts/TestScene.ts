@@ -17,9 +17,9 @@ export default class TestScene extends Scene {
     {
 
         this.time = new THREE.Clock();
-        this.camera = new THREE.OrthographicCamera( this.sceneManager.width / - 2, this.sceneManager.width / 2, this.sceneManager.height / 2, this.sceneManager.height / - 2, 0.0001, 1000 );
-        this.camera.position.set(0,0,0.0001);
-        let pGeo = new THREE.PlaneBufferGeometry(400,400);
+        this.camera = new THREE.PerspectiveCamera(50,this.sceneManager.width/this.sceneManager.height,0.1,10000);
+        this.camera.position.set(0,0,1000);
+        let pGeo = new THREE.PlaneBufferGeometry(100,100);
         let pMat = new THREE.MeshBasicMaterial({color:0xffffff*Math.random()});
         this.testPlane = new THREE.Mesh(pGeo,pMat);
 
@@ -33,6 +33,11 @@ export default class TestScene extends Scene {
         this.scene.add(this.testPlane);
 
         this.time.autoStart = true;
+
+        this.scene.rotateX(-0.001);
+        this.scene.rotateY(-0.0001);
+
+        this.sceneManager.setDebugCameraPosition(new THREE.Vector3(0,0,1000));
     }
 
     update()
@@ -46,7 +51,7 @@ export default class TestScene extends Scene {
 
         this.testPlane.position.set(
             Math.sin(this.time.getElapsedTime()*0.8)* 500,
-            Math.cos(this.time.getElapsedTime()*1.2)* 500,
+            Math.cos(this.time.getElapsedTime())* 500,
             0,
         )
 
