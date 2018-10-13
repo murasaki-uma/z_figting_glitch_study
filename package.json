@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/murasaki-uma/z_figting_glitch_study.git",
-  "author": "Yuma taesu <uma9266@gmail.com>",
+  "author": "Yuma Murasaki <uma9266@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "webpack",
